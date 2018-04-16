@@ -21,6 +21,9 @@ public class GameCanvas extends JPanel{
     private Random random;
     private int countStar;
     private int countEnemy;
+    private int countPlayer;
+
+    private Player player;
 
     public GameCanvas(){
         this.setSize(1024, 600);
@@ -30,11 +33,6 @@ public class GameCanvas extends JPanel{
         this.random = new Random();
         this.setVisible(true);
     }
-
-//    private void setupStar(){
-//        // thong qua constructor
-//        this.star = new Star(900, 600,this.loadImage("/Users/tranthuykieu/IdeaProjects/Rocket/resources/images/star.png"), 5, 5, 2);
-//    }
 
     private void setupBackBuffered(){
         // khoi tao backbuffered
@@ -51,19 +49,14 @@ public class GameCanvas extends JPanel{
         this.drawBackground();
         this.stars.forEach(star -> star.render(graphics)); // tinh nang lambdas trong java
         this.enemies.forEach(enemy -> enemy.render(graphics));
+        this.player.render(this.graphics);
         this.repaint();
     }
-
-//    private void drawBackground(){
-//        this.graphics.setColor(Color.BLACK);
-//        this.graphics.fillRect(0, 0, 1024, 600);
-//    }
 
     private void drawBackground(){
         this.backGround = new DrawBackGround(0, 0, 1024, 600, Color.BLACK);
         this.backGround.draw(this.graphics);
     }
-
 
     public void runAll(){
         // update everything
@@ -72,26 +65,46 @@ public class GameCanvas extends JPanel{
 
         this.createEnemy();
         this.enemies.forEach(enemy -> enemy.run());
+
+        this.createPlayer();
+        this.player.run();
     }
 
     private void createStar() {
         if (this.countStar == 30) {
-            Star star = new Star(1024, this.random.nextInt(600), this.loadImage("/Users/tranthuykieu/IdeaProjects/Rocket/resources/images/star.png"), 5, 5, this.random.nextInt(2) + 1);
+            Star star = new Star(
+                    new Vector2D(1024, this.random.nextInt(600)),
+                    this.loadImage("resources/images/star.png"),
+                    5, 5,
+                    new Vector2D( this.random.nextInt(2) + 1, 0)
+            );
             this.stars.add(star);
             this.countStar = 0;
         } else {
             this.countStar += 1;
         }
     }
-
     private void createEnemy(){
         if (this.countEnemy == 40) {
-            Enemy enemy = new Enemy(0, this.random.nextInt(600), this.loadImage("/Users/tranthuykieu/IdeaProjects/Rocket/resources/images/circle.png"), 6, 6, this.random.nextInt(3) + 1);
+            Enemy enemy = new Enemy(
+                    new Vector2D(0, this.random.nextInt(600)),
+                    this.loadImage("resources/images/circle.png"),
+                    6, 6,
+                    new Vector2D(this.random.nextInt(3) + 1, 0)
+            );
             this.enemies.add(enemy);
             this.countEnemy = 0;
         } else {
             this.countEnemy += 1;
         }
+    }
+
+    private void createPlayer(){
+        this.player = new Player(
+                new Vector2D(random.nextInt(1024),random.nextInt(600)),
+                new Vector2D(10,10),
+                Color.RED
+        );
     }
 
     private BufferedImage loadImage(String path){
@@ -100,7 +113,6 @@ public class GameCanvas extends JPanel{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
