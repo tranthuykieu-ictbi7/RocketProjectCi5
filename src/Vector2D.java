@@ -76,7 +76,7 @@ public class Vector2D {
         double radian = Math.toRadians(angle);
         float sin = (float)Math.sin(radian);
         float cos = (float)Math.cos(radian);
-        return new Vector2D(this.x * cos - this.y + sin,  this.x * sin + this.y * cos);
+        return new Vector2D(this.x * cos - this.y * sin,  this.x * sin + this.y * cos);
     }
 
     public Vector2D normailize(){

@@ -12,9 +12,10 @@ public class GameCanvas extends JPanel{
 
     private List<Star> stars; //containing star image
     private List<Enemy> enemies;
+    private List<Bullet> bullets;
     public  Player player;
 
-    private DrawBackGround background;
+    private Background background;
     private BufferedImage backBuffered;
     private Graphics graphics;
     private Random random;
@@ -22,11 +23,13 @@ public class GameCanvas extends JPanel{
     private int countEnemy = 0;
 
     public GameCanvas(){
+
         this.setSize(1024, 600);
         this.setupBackBuffered();
-        this.background = new DrawBackGround(0,0,Color.BLACK);
+        this.background = new Background();
         this.stars = new ArrayList<>();
         this.enemies = new ArrayList<>();
+
         this.random = new Random();
         this.player = new Player();
         this.player.position.set(200,200);
@@ -48,7 +51,6 @@ public class GameCanvas extends JPanel{
         this.background.render(this.graphics);
         this.stars.forEach(star -> star.render(graphics)); // tinh nang lambdas trong java
         this.enemies.forEach(enemy -> enemy.render(graphics));
-//        this.enemy.render(this.graphics);
         this.player.render(this.graphics);
         this.repaint();
     }
@@ -64,7 +66,7 @@ public class GameCanvas extends JPanel{
     }
 
     private void createEnemy(){
-        if (this.countEnemy == 100) {
+        if (this.countEnemy == 400) {
             Enemy enemy = new Enemy();
             this.enemies.add(enemy);
             this.countEnemy = 0;
@@ -81,6 +83,7 @@ public class GameCanvas extends JPanel{
                         ).multiply(2));
         this.enemies.forEach(enemy -> enemy.run());
     }
+
 
     private void createStar() {
         if (this.countStar == 30) {

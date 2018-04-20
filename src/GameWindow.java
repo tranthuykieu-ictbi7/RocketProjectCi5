@@ -25,6 +25,8 @@ public class GameWindow extends JFrame {
 
     private void eventKeyboard(){
         this.addKeyListener(new KeyListener() {
+            Vector2D defaultVelocity = new Vector2D(3.5f,0);
+
             @Override
             public void keyTyped(KeyEvent e) {
 
@@ -32,20 +34,46 @@ public class GameWindow extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
+
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    // gameCanvas.player.angle += 5;
+                    gameCanvas.player.playerMove.angle += 5;
                 }
+
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    // gameCanvas.player.angle -= 5;
+                    gameCanvas.player.playerMove.angle -= 5;
                 }
+
+                if (e.getKeyCode() == KeyEvent.VK_UP){
+                    defaultVelocity.set(10,0);
+                }
+
+                if(e.getKeyCode() == KeyEvent.VK_SPACE){
+                    gameCanvas.player.playerShoot.isPlayerShoot = true;
+                }
+
+                gameCanvas.player.playerMove.velocity.set(
+                        this.defaultVelocity.rotate(
+                                gameCanvas.player.playerMove.angle)
+                        );
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_UP) {
-                    //System.out.println("keyReleased");
+
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    defaultVelocity.set(3.5f,0);
                 }
+
+                if(e.getKeyCode() == KeyEvent.VK_SPACE){
+                    gameCanvas.player.playerShoot.isPlayerShoot = false;
+                }
+
+                gameCanvas.player.playerMove.velocity.set(
+                        this.defaultVelocity.rotate(
+                                gameCanvas.player.playerMove.angle)
+                        );
             }
+
         });
     }
 
