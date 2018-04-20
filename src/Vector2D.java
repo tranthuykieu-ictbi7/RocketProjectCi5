@@ -64,7 +64,7 @@ public class Vector2D {
         return this;
     }
 
-    public Vector2D copyVector(){
+    public Vector2D copy(){
         return new Vector2D(this.x, this.y);
     }
 

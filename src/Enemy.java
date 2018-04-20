@@ -4,20 +4,13 @@ import java.awt.image.BufferedImage;
 public class Enemy {
 
     public Vector2D position;
-    public int x;
-    public int y;
-    public BufferedImage image;
-    public int width;
-    public int height;
     public Vector2D velocity;
+    private ImageRenderer renderer;
 
-
-    public Enemy(Vector2D position, BufferedImage image, int width, int height, Vector2D velocity) {
-        this.position = position;
-        this.image = image;
-        this.width = width;
-        this.height = height;
+    public Enemy() {
+        this.position = new Vector2D();
         this.velocity = velocity;
+        this.renderer = new ImageRenderer("resources/images/circle.png", 8,8);
     }
 
     public void run() {
@@ -25,7 +18,7 @@ public class Enemy {
     }
 
     public void render(Graphics graphics) {
-        graphics.drawImage(this.image, (int)this.position.x, (int)this.position.y, this.width, this.height, null);
+        this.renderer.render(graphics, this.position);
 
     }
 }
